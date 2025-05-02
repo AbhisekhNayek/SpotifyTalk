@@ -31,10 +31,10 @@ initializeSocket(httpServer);
 // CORS configuration to allow requests from specific origin
 app.use(
 	cors({
-		origin: "http://localhost:3000",
-		credentials: true,
+	  origin: process.env.CORS_ORIGIN,
+	  credentials: true,
 	})
-);
+  );
 
 // Middleware setup
 app.use(express.json()); 
