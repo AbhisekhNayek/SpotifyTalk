@@ -10,13 +10,10 @@ export const connectDB = async () => {
 		}
 
 		// Attempt to connect to MongoDB with recommended options
-		const conn = await mongoose.connect(process.env.MONGODB_URI, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		});
+		const conn = await mongoose.connect(process.env.MONGODB_URI);
 
 		// Log success message with connected host
-		console.log(`Connected to MongoDB: ${conn.connection.host}`);
+		console.log(`Connected to MongoDB`);
 	} catch (error) {
 		// Log and handle any connection errors
 		console.error("Failed to connect to MongoDB:", error);
