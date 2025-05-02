@@ -7,6 +7,7 @@ import ChatHeader from "./components/ChatHeader";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import MessageInput from "./components/MessageInput";
+import UserImg from "../../../public/user.png";
 
 const formatTime = (date: string) => {
 	return new Date(date).toLocaleTimeString("en-US", {
@@ -57,7 +58,7 @@ const ChatPage = () => {
 												<AvatarImage
 													src={
 														message.senderId === user?.id
-															? user.imageUrl
+															? user?.imageUrl ?? {UserImg}
 															: selectedUser.imageUrl
 													}
 												/>
