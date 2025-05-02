@@ -10,8 +10,8 @@ import { createServer } from "http";
 import cron from "node-cron";
 
 // Importing custom libraries and routes
-import { initializeSocket } from "./lib/socket.js";
-import { connectDB } from "./lib/db.config.js";
+import { initializeSocket } from "./config/socket.config.js";
+import { connectDB } from "./config/db.config.js";
 import userRoutes from "./routes/user.route.js";
 import adminRoutes from "./routes/admin.route.js";
 import authRoutes from "./routes/auth.route.js";
