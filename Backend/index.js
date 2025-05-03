@@ -70,12 +70,12 @@ app.get("/", (req, res) => {
 });
 
 // Route setup
-app.use("/api/*users", userRoutes);
-app.use("/api/*admin", adminRoutes);
-app.use("/api/*auth", authRoutes);
-app.use("/api/*songs", songRoutes);
-app.use("/api/*albums", albumRoutes);
-app.use("/api/*stats", statRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/songs", songRoutes);
+app.use("/api/albums", albumRoutes);
+app.use("/api/stats", statRoutes);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
