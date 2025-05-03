@@ -12,7 +12,12 @@
 </p>
 
 ---
-
+<p align="center">
+  <a href="https://spotifytalk-1.onrender.com/" target="_blank">
+    🚀 <strong>Live Demo</strong>
+  </a>
+</p>
+---
 ## ✨ Key Features
 
 | 🌟 Feature | 🔍 Description |
