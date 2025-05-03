@@ -10,14 +10,14 @@ import { createServer } from "http";
 import cron from "node-cron";
 
 // Importing custom libraries and routes
-import { initializeSocket } from "./config/socket.config.js";
-import { connectDB } from "./config/db.config.js";
-import userRoutes from "./routes/user.route.js";
-import adminRoutes from "./routes/admin.route.js";
-import authRoutes from "./routes/auth.route.js";
-import songRoutes from "./routes/song.route.js";
-import albumRoutes from "./routes/album.route.js";
-import statRoutes from "./routes/stat.route.js";
+import { initializeSocket } from "./src/config/socket.config.js";
+import { connectDB } from "./src/config/db.config.js";
+import userRoutes from "./src/routes/user.route.js";
+import adminRoutes from "./src/routes/admin.route.js";
+import authRoutes from "./src/routes/auth.route.js";
+import songRoutes from "./src/routes/song.route.js";
+import albumRoutes from "./src/routes/album.route.js";
+import statRoutes from "./src/routes/stat.route.js";
 
 dotenv.config(); 
 
