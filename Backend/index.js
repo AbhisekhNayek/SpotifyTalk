@@ -70,12 +70,12 @@ app.get("/", (req, res) => {
 });
 
 // Route setup
-app.use("/api/users", userRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/songs", songRoutes);
-app.use("/api/albums", albumRoutes);
-app.use("/api/stats", statRoutes);
+app.use("/api/*users", userRoutes);
+app.use("/api/*admin", adminRoutes);
+app.use("/api/*auth", authRoutes);
+app.use("/api/*songs", songRoutes);
+app.use("/api/*albums", albumRoutes);
+app.use("/api/*stats", statRoutes);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
@@ -84,12 +84,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../Frontend", "dist", "index.html"));
   });
 }
-
-// Wildcard route fix with named parameters
-app.use("/api/*name", (req, res) => {
-  const { name } = req.params;
-  res.send(`You hit the route with name: ${name}`);
-});
 
 // Logging middleware (for debugging)
 app.use((req, res, next) => {
