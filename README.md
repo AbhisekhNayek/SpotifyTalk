@@ -1,4 +1,4 @@
-<h1 align="center">🎵 Spotify Talk</h1>
+<h1 align="center">🎵 Spotify Talk Application</h1>
 <p align="center">
   A full-stack music streaming platform with real-time chat, admin control, and live user tracking!
 </p>
