@@ -9,6 +9,8 @@ import fs from "fs";
 import { createServer } from "http";
 import cron from "node-cron";
 
+dotenv.config();
+
 // Importing custom libraries and routes
 import { initializeSocket } from "./src/config/socket.config.js";
 import { connectDB } from "./src/config/db.config.js";
@@ -18,8 +20,6 @@ import authRoutes from "./src/routes/auth.route.js";
 import songRoutes from "./src/routes/song.route.js";
 import albumRoutes from "./src/routes/album.route.js";
 import statRoutes from "./src/routes/stat.route.js";
-
-dotenv.config();
 
 const __dirname = path.resolve();
 const app = express();
@@ -45,7 +45,7 @@ app.use(
     tempFileDir: path.join(__dirname, "tmp"),
     createParentPath: true,
     limits: {
-      fileSize: 10 * 1024 * 1024,
+      fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
     },
   })
 );
@@ -56,13 +56,15 @@ cron.schedule("0 * * * *", () => {
   if (fs.existsSync(tempDir)) {
     fs.readdir(tempDir, (err, files) => {
       for (const file of files) {
-        fs.unlink(path.join(tempDir, file), (err) => {});
+        fs.unlink(path.join(tempDir, file), (err) => {
+          if (err) console.error(`Error deleting file ${file}:`, err);
+        });
       }
     });
   }
 });
 
-//Health Check
+// Health Check route
 app.get("/", (req, res) => {
   res.send("Spotify Talk API is Working...");
 });
@@ -83,8 +85,21 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+// Wildcard route fix with named parameters
+app.use("/api/*name", (req, res) => {
+  const { name } = req.params;
+  res.send(`You hit the route with name: ${name}`);
+});
+
+// Logging middleware (for debugging)
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // Error handler for unhandled errors
 app.use((err, req, res, next) => {
+  console.error(err); // Log the error for debugging
   res.status(500).json({ message: "Internal server error" });
 });
 
@@ -92,4 +107,13 @@ app.use((err, req, res, next) => {
 httpServer.listen(PORT, () => {
   console.log("Server is running on port " + PORT);
   connectDB();
+});
+
+// Graceful shutdown on SIGTERM (e.g., during deployment)
+process.on("SIGTERM", () => {
+  console.log("Shutting down gracefully...");
+  httpServer.close(() => {
+    console.log("Closed out remaining connections.");
+    process.exit(0);
+  });
 });
