@@ -13,37 +13,21 @@ import NotFoundPage from "./pages/404/NotFoundPage";
 function App() {
 	return (
 		<>
-			{/* Routes Configuration */}
 			<Routes>
-				{/* SSO Callback route for authentication */}
 				<Route
 					path='/sso-callback'
 					element={<AuthenticateWithRedirectCallback signUpForceRedirectUrl={"/auth-callback"} />}
 				/>
-				
-				{/* Authentication callback page */}
 				<Route path='/auth-callback' element={<AuthCallbackPage />} />
-				
-				{/* Admin page route, accessible for admins */}
 				<Route path='/admin' element={<AdminPage />} />
 
-				{/* Main layout wrapper for all main pages */}
 				<Route element={<MainLayout />}>
-					{/* Home page route */}
 					<Route path='/' element={<HomePage />} />
-					
-					{/* Chat page route */}
 					<Route path='/chat' element={<ChatPage />} />
-					
-					{/* Album page route with dynamic albumId parameter */}
 					<Route path='/albums/:albumId' element={<AlbumPage />} />
-					
-					{/* 404 page route for undefined URLs */}
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
 			</Routes>
-
-			{/* Toast notifications for UI feedback */}
 			<Toaster />
 		</>
 	);
