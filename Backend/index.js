@@ -19,47 +19,52 @@ import songRoutes from "./src/routes/song.route.js";
 import albumRoutes from "./src/routes/album.route.js";
 import statRoutes from "./src/routes/stat.route.js";
 
-dotenv.config(); 
+dotenv.config();
 
 const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT;
 
 const httpServer = createServer(app);
-initializeSocket(httpServer); 
+initializeSocket(httpServer);
 
 // CORS configuration to allow requests from specific origin
 app.use(
-	cors({
-	  origin: process.env.CORS_ORIGIN,
-	  credentials: true,
-	})
-  );
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
 
 // Middleware setup
-app.use(express.json()); 
-app.use(clerkMiddleware()); 
+app.use(express.json());
+app.use(clerkMiddleware());
 app.use(
-	fileUpload({
-		useTempFiles: true,
-		tempFileDir: path.join(__dirname, "tmp"),
-		createParentPath: true,
-		limits: {
-			fileSize: 10 * 1024 * 1024, 
-		},
-	})
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: path.join(__dirname, "tmp"),
+    createParentPath: true,
+    limits: {
+      fileSize: 10 * 1024 * 1024,
+    },
+  })
 );
 
 // Cron job to clean up temporary files every hour
 const tempDir = path.join(process.cwd(), "tmp");
 cron.schedule("0 * * * *", () => {
-	if (fs.existsSync(tempDir)) {
-		fs.readdir(tempDir, (err, files) => {
-			for (const file of files) {
-				fs.unlink(path.join(tempDir, file), (err) => {}); 
-			}
-		});
-	}
+  if (fs.existsSync(tempDir)) {
+    fs.readdir(tempDir, (err, files) => {
+      for (const file of files) {
+        fs.unlink(path.join(tempDir, file), (err) => {});
+      }
+    });
+  }
+});
+
+//Health Check
+app.get("/", (req, res) => {
+  res.send("Spotify Talk API is Working...");
 });
 
 // Route setup
@@ -72,19 +77,19 @@ app.use("/api/stats", statRoutes);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "../Frontend/dist")));
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "../Frontend", "dist", "index.html"));
-	});
+  app.use(express.static(path.join(__dirname, "../Frontend/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../Frontend", "dist", "index.html"));
+  });
 }
 
 // Error handler for unhandled errors
 app.use((err, req, res, next) => {
-	res.status(500).json({ message: "Internal server error" });
+  res.status(500).json({ message: "Internal server error" });
 });
 
 // Starting the server and connecting to the database
 httpServer.listen(PORT, () => {
-	console.log("Server is running on port " + PORT);
-	connectDB(); 
+  console.log("Server is running on port " + PORT);
+  connectDB();
 });
