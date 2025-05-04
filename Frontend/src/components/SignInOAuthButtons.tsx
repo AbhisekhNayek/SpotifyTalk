@@ -11,8 +11,8 @@ const SignInOAuthButtons = () => {
 	const signInWithGoogle = () => {
 		signIn.authenticateWithRedirect({
 			strategy: "oauth_google",
-			redirectUrl: "/sso-callback",
-			redirectUrlComplete: "/auth-callback",
+			redirectUrl: "/sso-callback", 
+			redirectUrlComplete: "/auth-callback", 
 		});
 	};
 

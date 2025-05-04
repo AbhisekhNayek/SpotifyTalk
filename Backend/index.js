@@ -103,7 +103,7 @@ httpServer.listen(PORT, () => {
   connectDB();
 });
 
-// Graceful shutdown on SIGTERM (e.g., during deployment)
+// Graceful shutdown on SIGTERM
 process.on("SIGTERM", () => {
   console.log("Shutting down gracefully...");
   httpServer.close(() => {
