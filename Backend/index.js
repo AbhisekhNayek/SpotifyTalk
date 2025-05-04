@@ -9,7 +9,6 @@ import fs from "fs";
 import { createServer } from "http";
 import cron from "node-cron";
 
-dotenv.config();
 
 // Importing custom libraries and routes
 import { initializeSocket } from "./src/config/socket.config.js";
@@ -20,6 +19,8 @@ import authRoutes from "./src/routes/auth.route.js";
 import songRoutes from "./src/routes/song.route.js";
 import albumRoutes from "./src/routes/album.route.js";
 import statRoutes from "./src/routes/stat.route.js";
+
+dotenv.config();
 
 const __dirname = path.resolve();
 const app = express();
@@ -85,15 +86,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// Logging middleware (for debugging)
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
-
 // Error handler for unhandled errors
 app.use((err, req, res, next) => {
-  console.error(err); // Log the error for debugging
+  console.error(err); 
   res.status(500).json({ message: "Internal server error" });
 });
 
